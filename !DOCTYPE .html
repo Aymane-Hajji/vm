@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VM vs Conteneurs - Le Guide Visuel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&family=Rock+Salt&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+/* 1. THE DESK & PAPER METAPHOR */
+
+:root {
+    --ink-color: #2c3e50;
+    --paper-bg: #fffdf5; /* Warmer, moleskine-like paper */
+    --grid-line: rgba(73, 115, 140, 0.15); /* Blueprint blue-ish grid */
+    --accent-red: #d9453a;
+    --accent-yellow: rgba(255, 235, 59, 0.6);
+    --accent-blue: #3498db;
+    --desk-bg: #2d3436;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--desk-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px; /* Increased gap for scrolling flow */
+  margin: 0;
+  min-height: 100vh;
+  padding: 80px 20px;
+  font-family: 'Patrick Hand', cursive;
+  color: var(--ink-color);
+}
+
+/* Changed from fixed slide to flexible card/section */
+.slide-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px; /* Max width for readability */
+  height: auto; /* Allow content to dictate height */
+  min-height: 600px; /* Minimum visual weight */
+  background-color: var(--paper-bg);
+  
+  /* GRAPH PAPER PATTERN */
+  background-image: 
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 25px 25px;
+  
+  /* Physical Paper Look */
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.15), 
+    0 10px 0 -5px #eee, 
+    0 10px 1px -4px rgba(0,0,0,0.15), 
+    0 20px 0 -10px #eee, 
+    0 20px 1px -9px rgba(0,0,0,0.15),
+    0 20px 20px rgba(0,0,0,0.2); 
+    
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  overflow: visible; /* Let content breathe */
+}
+
+/* 2. TYPOGRAPHY & HIERARCHY */
+
+h1, h2, h3 {
+  font-family: 'Permanent Marker', cursive;
+  margin: 0;
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: 72px;
+  color: var(--ink-color);
+  transform: rotate(-1deg);
+  margin-bottom: 10px;
+}
+
+.slide-title {
+  font-size: 42px;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--accent-red);
+  display: inline-block;
+  width: 100%;
+}
+
+p, li, td {
+  font-size: 24px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-family: 'Rock Salt', cursive;
+  font-size: 20px;
+  color: #7f8c8d;
+  margin-top: 10px;
+  transform: rotate(-1deg);
+}
+
+/* 3. VISUAL ELEMENTS & POLISH */
+
+/* The Tape Effect for Images */
+.image-wrapper {
+  position: relative;
+  background: white;
+  padding: 20px;
+  box-shadow: 3px 4px 2px rgba(0,0,0,0.15);
+  transform: rotate(1deg);
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 100px;
+  height: 25px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-left: 1px dashed rgba(0,0,0,0.05);
+  border-right: 1px dashed rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  backdrop-filter: blur(1px);
+  z-index: 10;
+}
+
+/* SVG Sketch Styles */
+.sketch-svg {
+    width: 100%;
+    height: 100%;
+    max-height: 350px;
+}
+.sketch-path {
+    fill: none;
+    stroke: var(--ink-color);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.sketch-fill {
+    fill: var(--ink-color);
+    stroke: none;
+}
+.sketch-accent-red {
+    stroke: var(--accent-red);
+}
+.sketch-accent-blue {
+    stroke: var(--accent-blue);
+}
+
+/* Organic Highlighter */
+.highlight {
+  background: linear-gradient(100deg, 
+    rgba(255, 235, 59, 0) 0%, 
+    rgba(255, 235, 59, 0.8) 5%, 
+    rgba(255, 235, 59, 0.6) 95%, 
+    rgba(255, 235, 59, 0) 100%
+  );
+  padding: 0 0.2em;
+  border-radius: 4px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Lists */
+ul {
+  padding-left: 20px;
+}
+li {
+  list-style: none;
+  margin-bottom: 20px;
+  position: relative;
+}
+li::before {
+  content: '→';
+  position: absolute;
+  left: -35px;
+  color: var(--accent-red);
+  font-family: 'Permanent Marker';
+  font-size: 28px;
+  top: -5px;
+}
+
+/* 4. LAYOUT UTILITIES */
+
+.content-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr; /* Keep ratio */
+  gap: 60px;
+  align-items: center;
+}
+
+/* Responsiveness for Webpage view */
+@media (max-width: 800px) {
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+    .slide-container {
+        padding: 30px;
+    }
+    h1 { font-size: 48px; }
+}
+
+.tiled {
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+@media (max-width: 800px) {
+    .tiled {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tile {
+  background: #fff;
+  border: 2px solid var(--ink-color);
+  border-radius: 4px 20px 4px 255px / 255px 4px 225px 4px; 
+  padding: 30px;
+  box-shadow: 5px 5px 0 rgba(44, 62, 80, 0.1);
+  position: relative;
+  margin-bottom: 20px;
+}
+.tile h3 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+/* 5. DATA VIZ SCRIBBLING */
+
+.chart-container {
+  width: 100%;
+  margin-top: 20px;
+}
+.bar {
+  margin-bottom: 25px;
+}
+.bar-label {
+  font-family: 'Permanent Marker';
+  margin-bottom: 5px;
+  font-size: 22px;
+}
+.bar-track {
+  width: 100%;
+  height: 50px;
+  border: 2px solid var(--ink-color);
+  border-radius: 8px;
+  padding: 3px;
+  background: #fff;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 15px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.3) 2px,
+    rgba(255,255,255,0.3) 4px
+  );
+}
+.fill-red { background-color: var(--accent-red); }
+.fill-green { background-color: #27ae60; }
+
+/* 6. TABLE DESIGN */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 20px;
+  margin-top: -20px;
+}
+th, td {
+  border: 2px solid var(--ink-color);
+  padding: 25px;
+  background: #fff;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+  border-radius: 3px;
+}
+th {
+  background: var(--accent-yellow);
+  transform: rotate(-1deg);
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  font-size: 28px;
+  vertical-align: bottom;
+}
+.row-header {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  text-align: right;
+  font-family: 'Permanent Marker';
+  font-size: 24px;
+  color: var(--accent-blue);
+  transform: rotate(-2deg);
+}
+
+/* FOOTER ELEMENTS */
+.author-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-family: 'Patrick Hand', cursive;
+  color: #bdc3c7;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author-footer i {
+    font-size: 14px;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Section 1: Title -->
+<div class="slide-container">
+    <div class="content-area" style="align-items: center; text-align: center;">
+        <h1 style="font-size: 90px;">VM vs Conteneurs</h1>
+        <p class="subtitle" style="font-size: 32px; color: var(--accent-red);">Le guide technique visuel.</p>
+        <p class="subtitle" style="font-size: 26px; color: var(--ink-color); margin-top: 5px;">Par Aymane Aboukhaira</p>
+        
+        <div class="image-wrapper" style="width: 400px; height: 300px; margin: 30px 0; transform: rotate(2deg);">
+             <!-- SKETCH: SERVER -->
+             <svg class="sketch-svg" viewBox="0 0 200 200">
+                <!-- Server Outline -->
+                <path class="sketch-path" d="M40 20 L160 22 L158 180 L42 178 Z" />
+                <!-- Feet -->
+                <path class="sketch-path" d="M45 180 L45 190" />
+                <path class="sketch-path" d="M155 180 L155 190" />
+                <!-- Server Units -->
+                <path class="sketch-path" d="M48 50 L152 52" />
+                <path class="sketch-path" d="M48 80 L152 82" />
+                <path class="sketch-path" d="M48 110 L152 112" />
+                <path class="sketch-path" d="M48 140 L152 142" />
+                <!-- Lights -->
+                <circle cx="140" cy="35" r="3" class="sketch-fill" />
+                <circle cx="130" cy="35" r="3" class="sketch-fill" style="fill: #2ecc71;" />
+                <circle cx="60" cy="65" r="2" class="sketch-fill" style="fill: #e74c3c;" />
+                <circle cx="60" cy="95" r="2" class="sketch-fill" style="fill: #3498db;" />
+             </svg>
+        </div>
+        
+        <div style="background: var(--accent-yellow); padding: 10px 20px; transform: rotate(-1deg); box-shadow: 2px 2px 0 rgba(0,0,0,0.1);">
+            <p style="margin:0; font-family: 'Permanent Marker';">Machines Virtuelles • MicroVMs • Docker</p>
+        </div>
+    </div>
+</div>
+
+<!-- Section 2: Bare Metal -->
+<div class="slide-container">
+    <h2 class="slide-title">1. Bare Metal (Le "Vrai" Matos)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p style="margin-top:0;">La base de tout (Laptop, Serveur, Raspberry Pi).</p>
+                <ul>
+                    <li><strong>Architecture :</strong> L'OS parle directement au CPU/RAM.</li>
+                    <li><span class="highlight">Performance Native</span> (100%).</li>
+                    <li><strong>La contrainte :</strong> Gestion des dépendances infernale si on installe tout sur le même OS ("Dependency Hell").</li>
+                </ul>
+            </div>
+            <div class="image-wrapper" style="transform: rotate(-1deg); height: 350px;">
+                <!-- SKETCH: CPU -->
+                <svg class="sketch-svg" viewBox="0 0 200 200">
+                    <!-- Chip Body -->
+                    <path class="sketch-path" d="M50 50 L150 48 L152 152 L48 150 Z" />
+                    <!-- Inner Square -->
+                    <path class="sketch-path" d="M80 80 L120 80 L120 120 L80 120 Z" style="stroke-width: 1;" />
+                    <!-- Pins Left -->
+                    <path class="sketch-path" d="M30 60 L50 60 M30 70 L50 70 M30 80 L50 80 M30 90 L50 90 M30 100 L50 100 M30 110 L50 110 M30 120 L50 120 M30 130 L50 130 M30 140 L50 140" />
+                    <!-- Pins Right -->
+                    <path class="sketch-path" d="M150 60 L170 60 M150 70 L170 70 M150 80 L170 80 M150 90 L170 90 M150 100 L170 100 M150 110 L170 110 M150 120 L170 120 M150 130 L170 130 M150 140 L170 140" />
+                    <!-- Pins Top -->
+                    <path class="sketch-path" d="M60 30 L60 50 M70 30 L70 50 M80 30 L80 50 M90 30 L90 50 M100 30 L100 50 M110 30 L110 50 M120 30 L120 50 M130 30 L130 50 M140 30 L140 50" />
+                    <!-- Pins Bottom -->
+                    <path class="sketch-path" d="M60 150 L60 170 M70 150 L70 170 M80 150 L80 170 M90 150 L90 170 M100 150 L100 170 M110 150 L110 170 M120 150 L120 170 M130 150 L130 170 M140 150 L140 170" />
+                    <!-- Text -->
+                    <text x="100" y="105" text-anchor="middle" font-family="Permanent Marker" font-size="20" fill="#2c3e50">CPU</text>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 3: VM Concept -->
+<div class="slide-container">
+    <h2 class="slide-title">2. La Machine Virtuelle (VM)</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="image-wrapper" style="transform: rotate(1deg); height: 400px;">
+                <!-- SKETCH: VM STACK -->
+                <svg class="sketch-svg" viewBox="0 0 200 250">
+                    <!-- Layer 1: Hardware -->
+                    <path class="sketch-path" d="M20 200 L180 200 L180 240 L20 240 Z" style="fill: #ecf0f1;" />
+                    <text x="100" y="228" text-anchor="middle" font-family="Patrick Hand" font-size="18" fill="#2c3e50">Matériel (Hardware)</text>
+
+                    <!-- Layer 2: Hypervisor (Wavy) -->
+                    <path class="sketch-path sketch-accent-red" d="M20 140 C 50 135, 150 135, 180 140 L180 180 C 150 185, 50 185, 20 180 Z" style="fill: rgba(217, 69, 58, 0.1);" />
+                    <text x="100" y="165" text-anchor="middle" font-family="Permanent Marker" font-size="18" fill="#d9453a">HYPERVISEUR</text>
+                    <text x="100" y="195" text-anchor="middle" font-family="Patrick Hand" font-size="14" fill="#7f8c8d">"L'illusionniste"</text>
+
+                    <!-- Layer 3: Guest OS -->
+                    <path class="sketch-path" d="M30 80 L170 80 L170 120 L30 120 Z" />
+                    <text x="100" y="105" text-anchor="middle" font-family="Patrick Hand" font-size="16" fill="#2c3e50">Guest OS (Invité)</text>
+
+                    <!-- Layer 4: App -->
+                    <path class="sketch-path" d="M50 20 L150 20 L150 60 L50 60 Z" />
+                    <text x="100" y="45" text-anchor="middle" font-family="Patrick Hand" font-size="16" fill="#2c3e50">Application</text>
+                    
+                    <!-- Arrow -->
+                    <path class="sketch-path" d="M100 120 L100 135" style="stroke-dasharray: 4,4;" />
+                    <path class="sketch-path" d="M100 60 L100 80" style="stroke-dasharray: 4,4;" />
+                </svg>
+            </div>
+            <div>
+                <h3>L'Illusionniste</h3>
+                <p>L'Hyperviseur est un logiciel qui <span class="highlight">émule du matériel</span>.</p>
+                <ul>
+                    <li>L'OS invité ne sait pas qu'il est virtuel.</li>
+                    <li><strong>Sécurité :</strong> Isolation forte (Sandboxing).</li>
+                    <li><strong>Coût :</strong> Overhead CPU & I/O important.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 4: Hypervisor Types -->
+<div class="slide-container">
+    <h2 class="slide-title">3. Hyperviseurs : Type 1 vs Type 2</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div class="tile" style="transform: rotate(-1deg);">
+                <h3 style="color: var(--accent-red);">Type 1: "Bare Metal"</h3>
+                <p class="subtitle" style="margin-bottom:20px;">ESXi, Proxmox, Xen</p>
+                <p>S'installe directement sur le fer.</p>
+                <ul>
+                    <li>Pas d'OS hôte intermédiaire.</li>
+                    <li>Performance maximale.</li>
+                    <li>Standard Datacenter.</li>
+                </ul>
+            </div>
+            <div class="tile" style="transform: rotate(1deg);">
+                <h3 style="color: var(--accent-blue);">Type 2: "Hosted"</h3>
+                <p class="subtitle" style="margin-bottom:20px;">VirtualBox, Docker Desktop</p>
+                <p>S'installe comme une App sur ton OS.</p>
+                <ul>
+                    <li>Dépend de l'OS hôte (Win/Mac).</li>
+                    <li>Latence plus élevée.</li>
+                    <li>Standard pour le Dev.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 5: Micro VMs -->
+<div class="slide-container">
+    <h2 class="slide-title">4. Micro VM (Le "Régime Sec")</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Minimalisme Absolu</h3>
+                <p>Une VM classique charge tout (USB, Son, Display...). Une MicroVM ne charge <strong>rien</strong>.</p>
+                <ul>
+                    <li><strong>Boot :</strong> &lt; 100ms.</li>
+                    <li><strong>Kernel :</strong> Strict minimum.</li>
+                    <li><span class="highlight">Le sweet spot :</span> Isolation d'une VM + Vitesse d'un conteneur.</li>
+                </ul>
+                <p class="subtitle">👉 Utilisé par AWS Lambda & Fargate.</p>
+            </div>
+            <div class="image-wrapper" style="height: 350px;">
+                <!-- SKETCH: FEATHER/LIGHTWEIGHT -->
+                <svg class="sketch-svg" viewBox="0 0 200 200">
+                    <!-- Scale Base -->
+                    <path class="sketch-path" d="M100 180 L100 40" />
+                    <path class="sketch-path" d="M50 180 L150 180" />
+                    <!-- Scale Crossbar -->
+                    <path class="sketch-path" d="M40 60 L160 80" /> <!-- Tilted to show light weight -->
+                    <!-- Heavy Side (Right - Down) -->
+                    <path class="sketch-path" d="M160 80 L160 120" />
+                    <rect x="145" y="120" width="30" height="30" class="sketch-path" fill="#fff" />
+                    <text x="160" y="140" text-anchor="middle" font-family="Patrick Hand" font-size="12">VM</text>
+                    <!-- Light Side (Left - Up - Feather) -->
+                    <path class="sketch-path" d="M40 60 L40 100" />
+                    <!-- Feather Sketch -->
+                    <path class="sketch-path sketch-accent-blue" d="M40 100 Q 60 110, 40 140 Q 20 110, 40 100" style="fill:none;" />
+                    <path class="sketch-path sketch-accent-blue" d="M40 100 L40 140" style="stroke-width:1;" />
+                    <line x1="40" y1="110" x2="50" y2="105" class="sketch-path sketch-accent-blue" style="stroke-width:1;" />
+                    <line x1="40" y1="120" x2="50" y2="115" class="sketch-path sketch-accent-blue" style="stroke-width:1;" />
+                    <line x1="40" y1="110" x2="30" y2="105" class="sketch-path sketch-accent-blue" style="stroke-width:1;" />
+                    <line x1="40" y1="120" x2="30" y2="115" class="sketch-path sketch-accent-blue" style="stroke-width:1;" />
+                    
+                    <text x="40" y="160" text-anchor="middle" font-family="Permanent Marker" font-size="14" fill="#3498db">MicroVM</text>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 6: Containers -->
+<div class="slide-container">
+    <h2 class="slide-title">5. Conteneurs (La Révolution)</h2>
+    <div class="content-area">
+        <div class="two-column">
+             <div class="image-wrapper" style="transform: rotate(-2deg); height: 400px;">
+                <!-- SKETCH: SHIPPING CONTAINERS -->
+                <svg class="sketch-svg" viewBox="0 0 200 200">
+                    <!-- Kernel Base -->
+                    <path class="sketch-path" d="M20 160 L180 160 L180 190 L20 190 Z" style="fill: #ecf0f1;" />
+                    <text x="100" y="180" text-anchor="middle" font-family="Patrick Hand" font-size="14">Kernel Linux Partagé</text>
+                    
+                    <!-- Container 1 (Bottom Left) -->
+                    <rect x="25" y="100" width="70" height="50" class="sketch-path" style="fill:none;" />
+                    <line x1="35" y1="100" x2="35" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="45" y1="100" x2="45" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="55" y1="100" x2="55" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="65" y1="100" x2="65" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="75" y1="100" x2="75" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="85" y1="100" x2="85" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <text x="60" y="130" text-anchor="middle" font-family="Permanent Marker" font-size="16" fill="#3498db" style="stroke:white; stroke-width:3px; paint-order:stroke;">APP A</text>
+                    <text x="60" y="130" text-anchor="middle" font-family="Permanent Marker" font-size="16" fill="#3498db">APP A</text>
+
+                    <!-- Container 2 (Bottom Right) -->
+                    <rect x="105" y="100" width="70" height="50" class="sketch-path" style="fill:none;" />
+                     <line x1="115" y1="100" x2="115" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="125" y1="100" x2="125" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="135" y1="100" x2="135" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="145" y1="100" x2="145" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="155" y1="100" x2="155" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="165" y1="100" x2="165" y2="150" class="sketch-path" style="stroke-width:1;" />
+                    <text x="140" y="130" text-anchor="middle" font-family="Permanent Marker" font-size="16" fill="#e74c3c" style="stroke:white; stroke-width:3px; paint-order:stroke;">APP B</text>
+                    <text x="140" y="130" text-anchor="middle" font-family="Permanent Marker" font-size="16" fill="#e74c3c">APP B</text>
+
+                    <!-- Container 3 (Top Middle) -->
+                    <rect x="65" y="40" width="70" height="50" class="sketch-path" style="fill:none;" />
+                     <line x1="75" y1="40" x2="75" y2="90" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="85" y1="40" x2="85" y2="90" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="95" y1="40" x2="95" y2="90" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="105" y1="40" x2="105" y2="90" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="115" y1="40" x2="115" y2="90" class="sketch-path" style="stroke-width:1;" />
+                    <line x1="125" y1="40" x2="125" y2="90" class="sketch-path" style="stroke-width:1;" />
+                    <text x="100" y="70" text-anchor="middle" font-family="Permanent Marker" font-size="16" fill="#27ae60" style="stroke:white; stroke-width:3px; paint-order:stroke;">APP C</text>
+                    <text x="100" y="70" text-anchor="middle" font-family="Permanent Marker" font-size="16" fill="#27ae60">APP C</text>
+                </svg>
+            </div>
+            <div>
+                <h3>Cgroups & Namespaces</h3>
+                <p>Ce n'est <strong>PAS</strong> de la virtualisation. C'est de l'<span class="highlight">isolation de processus</span>.</p>
+                <ul>
+                    <li>Tout le monde partage le <strong>MÊME</strong> Kernel Linux.</li>
+                    <li>Pas d'OS à booter.</li>
+                    <li>Appel système direct = Performance native.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 7: Density Chart -->
+<div class="slide-container">
+    <h2 class="slide-title">6. La Bataille de la Densité (RAM)</h2>
+    <div class="content-area">
+        <p>Scénario : Lancer 3 instances de la même App.</p>
+        
+        <div class="chart-container">
+            <div class="bar">
+                <div class="bar-label">3x VMs (OS Dupliqué)</div>
+                <div class="bar-track">
+                    <div class="bar-fill fill-red" style="width: 90%;">7.5 Go RAM</div>
+                </div>
+                <div class="subtitle" style="text-align:right;">(3x Kernel + 3x Userland + 3x App)</div>
+            </div>
+            
+            <div class="bar">
+                <div class="bar-label">3x Conteneurs (Kernel Partagé)</div>
+                <div class="bar-track">
+                    <div class="bar-fill fill-green" style="width: 25%;">2.0 Go RAM</div>
+                </div>
+                <div class="subtitle" style="text-align:right;">(1x Kernel + 3x App)</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; border: 2px dashed var(--ink-color); padding: 15px; border-radius: 10px; transform: rotate(-1deg); background: rgba(255,255,255,0.5);">
+            <p style="margin:0; text-align:center;">🚀 Les conteneurs permettent une densité d'infrastructure bien supérieure.</p>
+        </div>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 8: Container Types -->
+<div class="slide-container">
+    <h2 class="slide-title">7. App vs System Containers</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div class="tile">
+                <div style="position:absolute; top:-20px; right:20px; font-size:40px; color:#2980b9;"><i class="fa-brands fa-docker"></i></div>
+                <h3>App Container</h3>
+                <p class="subtitle">Docker, Podman</p>
+                <p><strong>Philosophie :</strong> "Un processus par conteneur".</p>
+                <ul>
+                    <li>Éphémère (Pet vs Cattle).</li>
+                    <li>Minimaliste.</li>
+                    <li>Format standard OCI.</li>
+                </ul>
+            </div>
+            <div class="tile">
+                <div style="position:absolute; top:-20px; right:20px; font-size:40px; color:#e67e22;"><i class="fa-solid fa-server"></i></div>
+                <h3>System Container</h3>
+                <p class="subtitle">LXC, LXD, Incus</p>
+                <p><strong>Philosophie :</strong> "Une VM légère".</p>
+                <ul>
+                    <li>Contient un OS complet (Systemd, ssh, cron).</li>
+                    <li>Persistant.</li>
+                    <li>On s'y loggue pour administrer.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 9: Summary Matrix -->
+<div class="slide-container">
+    <h2 class="slide-title">8. Le Cheat Sheet Ultime</h2>
+    <div class="content-area">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="color: var(--accent-red);">Virtualisation<br><small>(Isolation Hard)</small></th>
+                    <th style="color: var(--accent-blue);">Conteneurisation<br><small>(Isolation Soft)</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="row-header">OS Complet</td>
+                    <td>
+                        <strong>VM Classique</strong><br>
+                        <span style="font-size:18px; color:#7f8c8d;">Lourd, Robuste</span>
+                    </td>
+                    <td>
+                        <strong>Système Cont. (LXC)</strong><br>
+                        <span style="font-size:18px; color:#7f8c8d;">Léger, "Look & Feel" OS</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="row-header">Juste l'App</td>
+                    <td>
+                        <strong>Micro VM</strong><br>
+                        <span style="font-size:18px; color:#7f8c8d;">Rapide, Sécurisé (Firecracker)</span>
+                    </td>
+                    <td>
+                        <strong>App Cont. (Docker)</strong><br>
+                        <span style="font-size:18px; color:#7f8c8d;">Densité Max, Standard</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="author-footer"><i class="fa-solid fa-pen-nib"></i> Aymane Aboukhaira</div>
+</div>
+
+<!-- Section 10: Conclusion -->
+<div class="slide-container">
+    <div class="content-area" style="text-align:center;">
+        <h2 style="font-size: 60px; margin-bottom: 40px; transform: rotate(-2deg);">Conclusion</h2>
+        
+        <div style="text-align:left; background:white; padding:40px; border-radius:4px; box-shadow: 5px 5px 0 rgba(0,0,0,0.1); border: 1px solid #ccc; max-width: 800px; margin: 0 auto; position:relative;">
+            <!-- Pin effect -->
+            <div style="position:absolute; top:-15px; left:50%; width:20px; height:20px; background:#e74c3c; border-radius:50%; box-shadow:2px 2px 2px rgba(0,0,0,0.3);"></div>
+            
+            <p>Le choix dépend de votre curseur entre :</p>
+            <h3 style="text-align:center; color: var(--accent-red); margin: 20px 0;">Sécurité (Isolation) <br>vs<br> Performance (Densité)</h3>
+            <p>Il n'y a pas de "meilleure" solution unique. Comprendre ce qui se passe sous le capot permet de choisir le bon outil pour le bon besoin.</p>
+        </div>
+
+         <div class="image-wrapper" style="width: 150px; height: 150px; margin: 20px auto; transform: rotate(5deg);">
+            <!-- SKETCH: LIGHTBULB -->
+            <svg class="sketch-svg" viewBox="0 0 100 100">
+                <path class="sketch-path sketch-accent-yellow" d="M30 40 C 30 10, 70 10, 70 40 C 70 55, 60 60, 60 70 L 40 70 C 40 60, 30 55, 30 40 Z" style="stroke-width:2; fill:rgba(255,235,59,0.2);" />
+                <path class="sketch-path" d="M40 70 L 40 75 L 60 75 L 60 70" style="stroke-width:2;" />
+                <path class="sketch-path" d="M40 75 L 40 80 L 60 80 L 60 75" style="stroke-width:2;" />
+                <path class="sketch-path" d="M45 80 L 45 85 L 55 85 L 55 80" style="stroke-width:2;" />
+                <!-- Filament -->
+                 <path class="sketch-path sketch-accent-red" d="M45 50 L 50 40 L 55 50" style="stroke-width:2;" />
+                 <!-- Rays -->
+                 <line x1="20" y1="20" x2="25" y2="25" class="sketch-path" />
+                 <line x1="80" y1="20" x2="75" y2="25" class="sketch-path" />
+                 <line x1="50" y1="10" x2="50" y2="18" class="sketch-path" />
+            </svg>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <p class="subtitle" style="font-size:26px;">Vous avez aimé ce format technique ?</p>
+            <p style="font-family:'Permanent Marker'; font-size: 32px;">👇 Dites-le moi en commentaire !</p>
+            <p style="font-family:'Patrick Hand'; font-size: 24px; color:#bdc3c7; margin-top:10px;">— Aymane Aboukhaira</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+```
